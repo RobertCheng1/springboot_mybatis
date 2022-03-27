@@ -1,7 +1,7 @@
 package com.example.springboot_mybatis;
 
-import com.example.springboot_mybatis.dao.StudentMapper;
-import com.example.springboot_mybatis.entity.Student;
+import com.example.springboot_mybatis.dao.EmployeeMapper;
+import com.example.springboot_mybatis.entity.Employee;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -16,13 +16,18 @@ import java.util.List;
 class SpringbootMybatisApplicationTests {
 
 	@Autowired
-	StudentMapper studentMapper;
+	EmployeeMapper employeeMapper;
 
 	@Test
 	void contextLoads() {
-		List<Student> stu = studentMapper.selectList(null);
-		Assert.assertEquals(4, stu.size());
+		List<Employee> stu = employeeMapper.selectList(null);
+		Assert.assertEquals(6, stu.size());
 		System.out.println(stu);
+
+		String aa = "hello";
+		String bb = "wor'or ' ld";
+		System.out.printf(aa + bb);
 	}
+
 
 }
