@@ -3,9 +3,14 @@ package com.example.springboot_mybatis.controller;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springboot_mybatis.dao.DataShare;
 import com.example.springboot_mybatis.dao.EmployeeMapper;
 import com.example.springboot_mybatis.entity.Employee;
@@ -319,6 +324,104 @@ public class HelloController {
         return "This is from retrieveByWrapperSelectMy Mybatis;";
     }
 
+    @GetMapping("/retrievebywrapperselectmypage")
+    public String retrieveByWrapperSelectMyPage() {
+        // ToDo: 可能由于版本的原因没有生效
+        // 19. 分页查询
+        QueryWrapper<Employee> queryWrapper = new QueryWrapper<Employee>();
+        queryWrapper.lt("age", 41);
+
+        Page<Employee> page = new Page<Employee>(2,3);
+        IPage<Employee> iPage = employeeMapper.selectPage(page, queryWrapper);
+        System.out.printf("iPage.getTotal() = %d\n", iPage.getTotal());
+        System.out.printf("iPage.getPages() = %d\n", iPage.getPages());
+        System.out.printf("iPage.getSize() = %d\n", iPage.getSize());
+
+        iPage.getRecords().forEach(System.out::println);
+        return "This is from retrieveByWrapperSelectMy Mybatis;";
+    }
+
+    @GetMapping("/updateById")
+    public String updateById() {
+        // 20. 更新方法: updateById
+        Employee employee = new Employee();
+        employee.setId(1508025451366105089L);
+        employee.setAge(51);
+        employee.setEmail("stern2022@nba.com");
+        int rows = employeeMapper.updateById(employee);
+        System.out.printf("rows = %s\n", rows);
+        return "This is from updateById Mybatis;";
+    }
+
+    @GetMapping("/updateByWrapper")
+    public String updateByWrapper() {
+        // 21. 更新方法: updateByWrapper
+        // Case21-1: 常规做法
+        UpdateWrapper<Employee> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("name", "Stern").eq("age", 51);
+        Employee employee = new Employee();
+        employee.setAge(52);
+        employee.setEmail("stern2021@nba.com");
+        int rows = employeeMapper.update(employee, updateWrapper);
+        System.out.printf("rows = %s\n", rows);
+        // Case21-2:只更新少量字段，不想 new Employee,
+        UpdateWrapper<Employee> updateWrapperAdv = new UpdateWrapper<>();
+        updateWrapperAdv.eq("name", "Stern").eq("age", 52).set("age", 53);
+        int rows2 = employeeMapper.update(null, updateWrapperAdv);
+        System.out.printf("rows2 = %s\n", rows2);
+        return "This is from updateByWrapper Mybatis;";
+    }
+
+    @GetMapping("/updateByLambdaWrapper")
+    public String updateByLambdaWrapper() {
+        // Case22-1: 参考 18. lambda 条件构造器，它的好处是防误写字段
+        LambdaUpdateWrapper<Employee> lambdaUpdate = Wrappers.<Employee>lambdaUpdate();
+        lambdaUpdate.eq(Employee::getName, "Stern").eq(Employee::getAge, 53).set(Employee::getAge,54);
+        int rows = employeeMapper.update(null, lambdaUpdate);
+        System.out.printf("rows = %s\n", rows);
+
+        // Case22-2: LambdaUpdateChainWrapper
+        boolean update = new LambdaUpdateChainWrapper<Employee>(employeeMapper)
+                        .eq(Employee::getName, "Stern").eq(Employee::getAge, 54).set(Employee::getAge,55).update();
+        System.out.printf("update = %s\n", update);
+        return "This is from updateByLambdaWrapper Mybatis;";
+    }
+
+
+    @GetMapping("/deleteById")
+    public String deleteById() {
+        // 23. deleteById
+        int rows = employeeMapper.deleteById(1508025451366105089L);
+        System.out.printf("rows = %s\n", rows);
+        return "This is from deleteById Mybatis;";
+    }
+
+    @GetMapping("/deleteByMap")
+    public String deleteByMap() {
+        // 23. deleteByMap
+        Map<String, Object> columnMap = new HashMap<>();
+        columnMap.put("name", "rodman");
+        int rows = employeeMapper.deleteByMap(columnMap);
+        return "This is from deleteByMap Mybatis;";
+    }
+
+    @GetMapping("/deleteBatchIds")
+    public String deleteBatchIds() {
+        // 23. deleteBatchIds
+        int rows = employeeMapper.deleteBatchIds(Arrays.asList(1508025451957501953L, 1508025451705843714L));
+        System.out.printf("rows = %s\n", rows);
+        return "This is from deleteBatchIds Mybatis;";
+    }
+
+    @GetMapping("/deleteByWrapper")
+    public String deleteByWrapper() {
+        // 23. deleteByWrapper
+        LambdaQueryWrapper<Employee> lambdaQuery = Wrappers.<Employee>lambdaQuery();
+        lambdaQuery.eq(Employee::getName, "Krause").eq(Employee::getAge, 40);
+        int rows = employeeMapper.delete(lambdaQuery);
+        System.out.printf("rows = %s\n", rows);
+        return "This is from deleteByMap Mybatis;";
+    }
 }
 
 class MockGlobal{
