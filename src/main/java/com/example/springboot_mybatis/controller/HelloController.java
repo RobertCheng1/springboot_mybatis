@@ -138,7 +138,7 @@ public class HelloController {
         columnMap.put("age", 30);
         employeeList = employeeMapper.selectByMap(columnMap);
         employeeList.forEach(System.out::println);
-        return "This is from retrive Mybatis;";
+        return "This is from retrieve Mybatis;";
     }
 
     @GetMapping("/retrievebywrapper")
@@ -326,19 +326,22 @@ public class HelloController {
 
     @GetMapping("/retrievebywrapperselectmypage")
     public String retrieveByWrapperSelectMyPage() {
-        // ToDo: 可能由于版本的原因没有生效
-        // 19. 分页查询
+        // 19. 分页查询: 需要借助分页插件 MybatisPlusInterceptor
         QueryWrapper<Employee> queryWrapper = new QueryWrapper<Employee>();
-        queryWrapper.lt("age", 41);
+        queryWrapper.lt("age", 91);
+        // Case19-1: 调用原生的 selectPage,主要是单表分页
+        // Page<Employee> page = new Page<Employee>(2,2);
+        // IPage<Employee> iPage = employeeMapper.selectPage(page, queryWrapper);
+        // System.out.printf("iPage.getTotal() = %d\n", iPage.getTotal());
+        // System.out.printf("iPage.getPages() = %d\n", iPage.getPages());
+        // System.out.printf("iPage.getSize() = %d\n", iPage.getSize());
+        // iPage.getRecords().forEach(System.out::println);
 
+        // Case19-2: 调用自己的分页：可以写任意SQL,所以跨表查询就可以了
         Page<Employee> page = new Page<Employee>(2,3);
-        IPage<Employee> iPage = employeeMapper.selectPage(page, queryWrapper);
-        System.out.printf("iPage.getTotal() = %d\n", iPage.getTotal());
-        System.out.printf("iPage.getPages() = %d\n", iPage.getPages());
-        System.out.printf("iPage.getSize() = %d\n", iPage.getSize());
-
-        iPage.getRecords().forEach(System.out::println);
-        return "This is from retrieveByWrapperSelectMy Mybatis;";
+        List<Employee> employeeList = employeeMapper.selectMyPage(page, queryWrapper);
+        employeeList.forEach(System.out::println);
+        return "This is from retrieveByWrapperSelectMyPage Mybatis;";
     }
 
     @GetMapping("/updateById")

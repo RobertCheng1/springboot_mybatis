@@ -3,6 +3,7 @@ package com.example.springboot_mybatis.dao;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springboot_mybatis.entity.Employee;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -22,4 +23,7 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
 
     @Select("SELECT * FROM employee ${ew.customSqlSegment}")
     List<Employee> selectMy(@Param(Constants.WRAPPER) Wrapper<Employee> wrapper);
+
+    @Select("SELECT * FROM employee ${ew.customSqlSegment}")
+    List<Employee> selectMyPage(Page<Employee> page, @Param(Constants.WRAPPER) Wrapper<Employee> wrapper);
 }
