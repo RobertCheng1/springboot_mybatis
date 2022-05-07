@@ -16,7 +16,9 @@ import org.springframework.context.annotation.Configuration;
 public class MyBatisPlusConfig {
     // 由于 mybatis-plus 版本的原因慕课教程中用的类是 PaginationInterceptor, 直接 return new PaginationInterceptor();
     // 在我的这个版本中，用的是 MybatisPlusInterceptor； 直接 return new MybatisPlusInterceptor() 分页没有生效。
-    // 后来搜索 “MybatisPlusInterceptor 没有分页” https://www.csdn.net/tags/MtTaMg4sNjc2MTE3LWJsb2cO0O0O.html
+    // 后来搜索 “MybatisPlusInterceptor 没有分页”
+    // https://www.csdn.net/tags/MtTaMg4sNjc2MTE3LWJsb2cO0O0O.html
+    // https://blog.csdn.net/hyk1499449886/article/details/113483133
     // 可知需要调用 addInnerInterceptor 才可以
     @Bean
     public MybatisPlusInterceptor paginationInterceptor() {

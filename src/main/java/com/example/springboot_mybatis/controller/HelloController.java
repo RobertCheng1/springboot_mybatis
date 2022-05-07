@@ -67,6 +67,15 @@ public class HelloController {
         return "This is from Springboot Mybatis;";
     }
 
+    @GetMapping("/helloAdv")
+    public String helloAdv() {
+        LambdaQueryWrapper<Employee> lambdaQueryWrapper = new LambdaQueryWrapper<Employee>();
+        // lambdaQueryWrapper.ge(Employee::getAge, 10);
+        // 如果 lambdaQueryWrapper 没有初始化， 和 NULL 是一个效果
+        List<Employee> StuList = employeeMapper.selectList(lambdaQueryWrapper);
+        System.out.println(StuList);
+        return "This is from helloAdv of Springboot Mybatis;";
+    }
 
     @GetMapping("/initemployee")
     public String initEmployee() {
@@ -209,7 +218,7 @@ public class HelloController {
 
         List<Employee> employeeList = employeeMapper.selectList(queryWrapper);
         employeeList.forEach(System.out::println);
-        return "This is from retrivebywrapper Mybatis;";
+        return "This is from retrieveByWrapper Mybatis;";
     }
 
     @GetMapping("/retrievebywrapperentity")
@@ -326,7 +335,7 @@ public class HelloController {
 
     @GetMapping("/retrievebywrapperselectmypage")
     public String retrieveByWrapperSelectMyPage() {
-        // 19. 分页查询: 需要借助分页插件 MybatisPlusInterceptor
+        // 19. 分页查询: 需要借助分页插件 MybatisPlusInterceptor；用第三方分页插件也可以 PageHelper
         QueryWrapper<Employee> queryWrapper = new QueryWrapper<Employee>();
         queryWrapper.lt("age", 91);
         // Case19-1: 调用原生的 selectPage,主要是单表分页
@@ -337,8 +346,8 @@ public class HelloController {
         // System.out.printf("iPage.getSize() = %d\n", iPage.getSize());
         // iPage.getRecords().forEach(System.out::println);
 
-        // Case19-2: 调用自己的分页：可以写任意SQL,所以跨表查询就可以了
-        Page<Employee> page = new Page<Employee>(2,3);
+        // Case19-2: 调用自己的分页：可以写任意SQL,所以跨表查询是可以了
+        Page<Employee> page = new Page<Employee>(2,4);
         List<Employee> employeeList = employeeMapper.selectMyPage(page, queryWrapper);
         employeeList.forEach(System.out::println);
         return "This is from retrieveByWrapperSelectMyPage Mybatis;";

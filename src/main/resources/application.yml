@@ -31,4 +31,4 @@ logging:
     root: info
     com.example.springboot_mybatis.dao: trace
   pattern:
-    console: '%p%m%n'
+    console: '%p%m%n' #日志级别、日志内容、换行
