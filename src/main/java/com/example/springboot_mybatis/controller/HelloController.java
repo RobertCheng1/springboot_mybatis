@@ -31,6 +31,9 @@ import java.util.*;
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class HelloController {
+    // Mybatis-plus 的入门用法：https://www.imooc.com/learn/1130
+
+
     // 依赖注入的方式：
     // Case1: @Autowired 有告警：Field injection is not recommended
     // 参考： https://blog.csdn.net/zhangjingao/article/details/81094529

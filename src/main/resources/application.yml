@@ -19,8 +19,6 @@ spring:
       url: jdbc:mysql://127.0.0.1:3306/robertdb?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true
       username: root
       password: start01all
-  log:
-
 #    sql:
 #      init:
 #        schema-locations: classpath:db/schema-mysql.sql
@@ -32,3 +30,9 @@ logging:
     com.example.springboot_mybatis.dao: trace
   pattern:
     console: '%p%m%n' #日志级别、日志内容、换行
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-not-delete-value: 0  # 这两个值是 mybatis-plus 默认配置，写在这里只是为了突出该配置
+      logic-delete-value: 1

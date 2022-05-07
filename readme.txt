@@ -28,6 +28,19 @@ CREATE TABLE employee (
  CONSTRAINT manager_fk FOREIGN KEY (manager_id) REFERENCES employee(id)
 ) ENGINE=INNODB CHARSET=UTF8;
 
+CREATE TABLE `nba_player` (
+  `id` bigint(20) NOT NULL COMMENT '主键',
+  `name` varchar(30) DEFAULT NULL COMMENT '姓名',
+  `age` int(11) DEFAULT NULL COMMENT '年龄',
+  `email` varchar(30) DEFAULT NULL COMMENT '邮箱',
+  `manager_id` bigint(20) DEFAULT NULL COMMENT '直属上级id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `version` int(11) default '1' COMMENT '版本',
+  `deleted` int(11) default '0' COMMENT '逻辑删除标志',
+  PRIMARY KEY (`id`),
+  CONSTRAINT `player_manager__fk` FOREIGN KEY (`manager_id`) REFERENCES `nba_player` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 插入时：
     1.新建的实体对象没有设置 email 的值（除了id），则在 ORM 转 SQL 时没有出现 email 列，这是因为 MP 的默认规则不会转实体对象中实例变量为 NULL 的字段 from:2-1
