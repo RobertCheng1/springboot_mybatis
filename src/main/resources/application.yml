@@ -29,7 +29,7 @@ logging:
     root: info
     com.example.springboot_mybatis.dao: trace
   pattern:
-    console: '%p%m%n' #日志级别、日志内容、换行
+    console: '%p%m%n' #日志级别、日志内容、换行， from: 慕课网
 
 mybatis-plus:
   global-config:
