@@ -1,0 +1,49 @@
+server:
+  port: 8082
+
+#spring:
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:mem:test
+#    username: root
+#    password: test
+#  sql:
+#    init:
+#      schema-locations: classpath:db/schema-h2.sql
+#      data-locations: classpath:db/data-h2.sql
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/robertdb?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: root
+    password: start01all
+  cloud:
+    stream:
+      default-binder: kafka
+      kafka:
+        binder:
+          brokers: 10.222.15.158:8110
+      bindings:
+        robert:
+          binder: kafka
+          destination: robert
+          content-type: application/json
+#    sql:
+#      init:
+#        schema-locations: classpath:db/schema-mysql.sql
+#        data-locations: classpath:db/data-mysql.sql
+
+logging:
+  level:
+    root: info
+    com.example.springboot_mybatis.dao: trace
+  pattern:
+    console: '%p%m%n' #日志级别、日志内容、换行， from: 慕课网
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-not-delete-value: 0  # 这两个值是 mybatis-plus 默认配置，写在这里只是为了突出该配置
+      logic-delete-value: 1

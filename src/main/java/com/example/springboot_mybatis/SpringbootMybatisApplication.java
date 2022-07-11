@@ -1,14 +1,17 @@
 package com.example.springboot_mybatis;
 
+import com.example.springboot_mybatis.domain.stream.source.KafkaSender;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @SpringBootApplication
 @EnableScheduling
 @MapperScan("com.example.springboot_mybatis.dao")
+@EnableBinding({KafkaSender.class})
 public class SpringbootMybatisApplication {
 	// ToDo:
 	// 1. 实体类名和表名不对应时：@TableName("db_name")
