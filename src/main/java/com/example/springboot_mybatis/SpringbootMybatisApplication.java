@@ -1,9 +1,9 @@
 package com.example.springboot_mybatis;
 
 import com.example.springboot_mybatis.domain.stream.source.KafkaSender;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.scheduling.annotation.EnableScheduling;
 

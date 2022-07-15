@@ -26,10 +26,14 @@ spring:
         binder:
           brokers: 10.222.15.158:8110
       bindings:
-        robert:
+        myalarm-output:
           binder: kafka
-          destination: robert
+          destination: myalarm
+        myalarm-input:
+          binder: kafka
+          destination: myalarm
           content-type: application/json
+          group: alarmgroup
 #    sql:
 #      init:
 #        schema-locations: classpath:db/schema-mysql.sql

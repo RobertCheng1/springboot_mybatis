@@ -12,11 +12,10 @@ import org.springframework.messaging.MessageChannel;
 public interface KafkaSender {
 
     /**
-     * 默认 topic 为 output 内字符串
      *
      * @return message channel
      */
-    @Output("robert")
+    @Output("myalarm-output")
     MessageChannel pocInfoSender();
 
 }
